@@ -1,0 +1,15 @@
+/Users/tomdesvignes/Documents/RPI/DotNet/consoleProject/bin/Debug/net8.0/consoleProject
+/Users/tomdesvignes/Documents/RPI/DotNet/consoleProject/bin/Debug/net8.0/consoleProject.deps.json
+/Users/tomdesvignes/Documents/RPI/DotNet/consoleProject/bin/Debug/net8.0/consoleProject.runtimeconfig.json
+/Users/tomdesvignes/Documents/RPI/DotNet/consoleProject/bin/Debug/net8.0/consoleProject.dll
+/Users/tomdesvignes/Documents/RPI/DotNet/consoleProject/bin/Debug/net8.0/consoleProject.pdb
+/Users/tomdesvignes/Documents/RPI/DotNet/consoleProject/obj/Debug/net8.0/consoleProject.GeneratedMSBuildEditorConfig.editorconfig
+/Users/tomdesvignes/Documents/RPI/DotNet/consoleProject/obj/Debug/net8.0/consoleProject.AssemblyInfoInputs.cache
+/Users/tomdesvignes/Documents/RPI/DotNet/consoleProject/obj/Debug/net8.0/consoleProject.AssemblyInfo.cs
+/Users/tomdesvignes/Documents/RPI/DotNet/consoleProject/obj/Debug/net8.0/consoleProject.csproj.CoreCompileInputs.cache
+/Users/tomdesvignes/Documents/RPI/DotNet/consoleProject/obj/Debug/net8.0/consoleProject.sourcelink.json
+/Users/tomdesvignes/Documents/RPI/DotNet/consoleProject/obj/Debug/net8.0/consoleProject.dll
+/Users/tomdesvignes/Documents/RPI/DotNet/consoleProject/obj/Debug/net8.0/refint/consoleProject.dll
+/Users/tomdesvignes/Documents/RPI/DotNet/consoleProject/obj/Debug/net8.0/consoleProject.pdb
+/Users/tomdesvignes/Documents/RPI/DotNet/consoleProject/obj/Debug/net8.0/consoleProject.genruntimeconfig.cache
+/Users/tomdesvignes/Documents/RPI/DotNet/consoleProject/obj/Debug/net8.0/ref/consoleProject.dll

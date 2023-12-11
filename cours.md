@@ -49,3 +49,23 @@ Logique de présentation: C'est la logique qui permet de présenter les données
 #### Model-View-ViewModel
 Le pattern MVVM est un pattern de conception qui permet de séparer les préoccupations d'une application en trois couches distinctes. Le modèle (Model) contient les données et la logique métier. La vue (View) contient la présentation de l'interface graphique. Le ViewModel (ViewModel) contient la logique concernant la façon dont les données sont présentées à l'utilisateur.
 
+## Le cli de .net
+Le cli de .net permet de créer des projets, de les compiler, de les lancer, de les tester, de les publier, etc.
+
+## le fichier sln
+Le fichier sln est un fichier qui permet de regrouper plusieurs projets.
+
+## Le fichier csproj
+Le fichier csproj est un fichier qui permet de décrire un projet.
+
+
+## Serveur web
+Le serveur web fourni ASP .NET Core est Kestrel. Il est léger et rapide. Il est possible de le configurer pour qu'il écoute sur un port spécifique, qu'il utilise HTTPS, etc.
+
+![Kestrel](./asset/2.png)
+
+## Les composants de .NET Core 
+1. Les Librairie CoreFX
+
+Ces librairie intègre les fonctionnalités de base de .NET Core. Elles sont utilisées par les autres composants de .NET Core. Elles sont disponibles sous l'espace de nom `System.*`.`
+
