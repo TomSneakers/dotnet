@@ -6,7 +6,14 @@ class Program
     {
         Console.WriteLine("test function sum");
 
-        
+        // Création d'une liste de valeurs pour tester la fonction Sum
+        List<object> values = new List<object> { 1, 2, 3, new List<object> { 4, 5 }, 6 };
+
+        // Appel de la fonction Sum avec la liste de valeurs
+        int result = Sum(values);
+
+        // Affichage du résultat à l'écran
+        Console.WriteLine("Sum: " + result);
 
         Console.WriteLine("Press A to exit.");
         while (Console.ReadKey().Key != ConsoleKey.A)
