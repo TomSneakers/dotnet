@@ -10,3 +10,10 @@ dotnet --version //verifie la version de .net
 donet --list-sdks //liste les sdk installés
 
 ```
+Pour les schémas, allez sur https://app.diagrams.net/
+
+## Objectifs fin de semaine
+Faire une API REST avec .net core 8.0
+
+
+## Cours
