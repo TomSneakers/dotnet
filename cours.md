@@ -85,6 +85,4 @@ Cepedant lorsque dans le fichier csproj la partie ` <ImplicitUsings>enable</Impl
 - analyser le code du projet
 - expliquez comment fonctionne le nouveau point d'entrée d'API
 - Créez un second endpoint qui permet de creer un nouveau Livre
-
-## Reponse Tom
-- 
+- Créez un troisième endpoint qui permet de supprimer un livre

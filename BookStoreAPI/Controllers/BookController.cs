@@ -40,4 +40,41 @@ public class BookController : ControllerBase
         return newBook;
     }
 
+    //Methode PUT
+    [HttpPut]
+    //Route permet de definir l'url de la methode
+    [Route("api/books/{id}")]
+    public ActionResult<Book> UpdateBook(int id, Book book)
+    {
+        var newBook = new Book
+        {
+            Id = id,
+            Title = book.Title,
+            Author = book.Author
+        };
+
+        return newBook;
+    }
+
+    // DELETE api/books/{id}
+    [Route("api/books/{id}")]
+    public ActionResult DeleteBook(int id)
+    {
+        var existingBook = _books.Find(b => b.Id == id);
+
+        if (existingBook == null)
+        {
+            return NotFound();
+        }
+
+        _books.Remove(existingBook);
+
+        return Ok();
+    }
+
+    private int GenerateNewId()
+    {
+        return _books.Count + 1;
+    }
+
 }
