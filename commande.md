@@ -1,5 +1,8 @@
 # All commande for .net
 
+Url du prof du cours:
+https://github.com/bendahmane/ISITECH-2324-B3RPID-NET
+
 ## Commande pour prérequis
 
 ```bash
@@ -59,4 +62,12 @@ dotnet add package <nom du package>
 
 ```bash
 dotnet new list | grep <nom du template>
+```
+
+## Commande pour créer une API web
+
+    ```bash
+    dotnet new webapi -o <nom du projet>  // Sans controller
+
+dotnet new webapi --use-program-main --use-controllers -o <nom du projet> // Avec controller
 ```

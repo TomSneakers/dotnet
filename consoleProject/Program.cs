@@ -4,10 +4,27 @@ class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("test function sum");
+        Console.WriteLine("Enter a list of values separated by commas:");
 
-        // Création d'une liste de valeurs pour tester la fonction Sum
-        List<object> values = new List<object> { 1, 2, 3, new List<object> { 4, 5 }, 6 };
+        // Lecture des valeurs à partir de l'entrée standard
+        string input = Console.ReadLine() ?? string.Empty;
+
+        // Séparation des valeurs en utilisant la virgule comme séparateur
+        string[] valueStrings = input.Split(',');
+
+        // Conversion des valeurs en objets et ajout à la liste
+        List<object> values = new List<object>();
+        foreach (string valueString in valueStrings)
+        {
+            if (int.TryParse(valueString, out int intValue))
+            {
+                values.Add(intValue);
+            }
+            else
+            {
+                Console.WriteLine("Invalid value: " + valueString);
+            }
+        }
 
         // Appel de la fonction Sum avec la liste de valeurs
         int result = Sum(values);

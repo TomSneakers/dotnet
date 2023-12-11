@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "hz2IjvpVI66n7IJo2im5g5sgyNwPP47WPKGryPBs7W3q08SZZ0jIO4cMETYzNH316LdopTNtjqavQ4XQcoTm2w==",
+  "success": true,
+  "projectFilePath": "/Users/tomdesvignes/Documents/RPI/DotNet/BookStoreAPI/BookStoreAPI.csproj",
+  "expectedPackageFiles": [
+    "/Users/tomdesvignes/.nuget/packages/microsoft.extensions.apidescription.server/6.0.5/microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
+    "/Users/tomdesvignes/.nuget/packages/microsoft.openapi/1.2.3/microsoft.openapi.1.2.3.nupkg.sha512",
+    "/Users/tomdesvignes/.nuget/packages/swashbuckle.aspnetcore/6.4.0/swashbuckle.aspnetcore.6.4.0.nupkg.sha512",
+    "/Users/tomdesvignes/.nuget/packages/swashbuckle.aspnetcore.swagger/6.4.0/swashbuckle.aspnetcore.swagger.6.4.0.nupkg.sha512",
+    "/Users/tomdesvignes/.nuget/packages/swashbuckle.aspnetcore.swaggergen/6.4.0/swashbuckle.aspnetcore.swaggergen.6.4.0.nupkg.sha512",
+    "/Users/tomdesvignes/.nuget/packages/swashbuckle.aspnetcore.swaggerui/6.4.0/swashbuckle.aspnetcore.swaggerui.6.4.0.nupkg.sha512"
+  ],
+  "logs": []
+}
