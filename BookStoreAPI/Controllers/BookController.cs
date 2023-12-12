@@ -70,30 +70,36 @@ public class BookController : ControllerBase
 
         }
     }
-    // PUT: api/Book/{id}
-    // BODY: Book (JSON)
-    [HttpPut("{id}")]
-    [ProducesResponseType(200, Type = typeof(Book))]
+
+    //Put: api/Book
+    //BODY: Book (JSON)
+    [HttpPut]
+    [ProducesResponseType(201, Type = typeof(Book))]
     [ProducesResponseType(400)]
-    [ProducesResponseType(404)]
-    public async Task<ActionResult<Book>> PutBook(int id, [FromBody] Book updatedBook)
+
+    public async Task<ActionResult<Book>> PutBook([FromBody] Book book)
     {
-        // Vérifiez si le livre existe dans la base de données
-        Book existingBook = await _dbContext.Books.FindAsync(id);
-        if (existingBook == null)
+        // we check if the parameter is null
+        if (book == null)
         {
-            return NotFound();
+            return BadRequest();
         }
+        // we check if the book already exists
+        Book? addedBook = await _dbContext.Books.FirstOrDefaultAsync(b => b.Title == book.Title);
+        if (addedBook != null)
+        {
+            return BadRequest("Book already exists");
+        }
+        else
+        {
+            // we add the book to the database
+            await _dbContext.Books.AddAsync(book);
+            await _dbContext.SaveChangesAsync();
 
-        // Mettez à jour les propriétés du livre avec les nouvelles valeurs
-        // existingBook.Title = updatedBook.Title;
-        existingBook.Author = updatedBook.Author;
+            // we return the book
+            return Created("api/book", book);
 
-        // Enregistrez les modifications dans la base de données
-        await _dbContext.SaveChangesAsync();
-
-        // Retournez une réponse OK avec le livre mis à jour
-        return Ok(existingBook);
+        }
     }
 
 }
