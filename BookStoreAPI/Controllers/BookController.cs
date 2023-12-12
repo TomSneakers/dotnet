@@ -1,81 +1,99 @@
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using BookStoreAPI.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
-namespace BookStoreAPI.Controllers
+
+namespace BookStoreAPI.Controllers; // BookStoreAPI est l'espace de nom racine de mon projet 
+
+
+// this designe la classe dans laquelle on se trouve
+
+
+// Ceci est une annotation, elle permet de définir des métadonnées sur une classe
+// Dans ce contexte elle permet de définir que la classe BookController est un contrôleur d'API
+// On parle aussi de decorator / décorateur
+[ApiController]
+[Route("api/[controller]")]
+public class BookController : ControllerBase
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class BookController : ControllerBase
+
+    private readonly ApplicationDbContext _dbContext;
+
+    public BookController(ApplicationDbContext dbContext)
     {
-        private readonly List<Book> _books;
+        _dbContext = dbContext;
+    }
 
-        public BookController()
+    // Ceci est une annotation, elle permet de définir des métadonnées sur une méthode
+    // ActionResult designe le type de retour de la méthode de controller d'api
+    [HttpGet]
+    public ActionResult<List<Book>> GetBooks()
+    {
+
+        var books = new List<Book>
         {
-            _books = new List<Book>
-            {
-                new Book { Id = 1, Title = "Elon Musk", Author = "Elon Musk" }
-            };
+            new() { Id = 1, Title = "Le seigneur des anneaux", Author = "J.R.R Tolkien" }
+        };
+
+        return Ok(books);
+
+    }
+    // POST: api/Book
+    // BODY: Book (JSON)
+    [HttpPost]
+    [ProducesResponseType(201, Type = typeof(Book))]
+    [ProducesResponseType(400)]
+    public async Task<ActionResult<Book>> PostBook([FromBody] Book book)
+    {
+        // we check if the parameter is null
+        if (book == null)
+        {
+            return BadRequest();
         }
-
-
-        // GET api/books
-        [HttpGet]
-        // [Route("api/books")]
-
-        public ActionResult<List<Book>> GetBooks()
+        // we check if the book already exists
+        Book? addedBook = await _dbContext.Books.FirstOrDefaultAsync(b => b.Title == book.Title);
+        if (addedBook != null)
         {
-            return _books;
+            return BadRequest("Book already exists");
         }
-
-
-        // POST Method
-        [HttpPost]
-        public IActionResult CreateBook(Book book)
+        else
         {
-            // book.Id = GenerateNewId();
+            // we add the book to the database
+            await _dbContext.Books.AddAsync(book);
+            await _dbContext.SaveChangesAsync();
 
-            // _books.Add(book);
+            // we return the book
+            return Created("api/book", book);
 
-            return CreatedAtAction(nameof(GetBooks), new { id = book.Id });
-        }
-
-        // PUT Method
-        [HttpPut]
-        public ActionResult<Book> UpdateBook(int id, Book book)
-        {
-            var existingBook = _books.Find(b => b.Id == id);
-
-            if (existingBook == null)
-            {
-                return NotFound();
-            }
-
-            existingBook.Title = book.Title;
-            existingBook.Author = book.Author;
-
-            return existingBook;
-        }
-
-        // DELETE Method
-        [HttpDelete]
-        public ActionResult DeleteBook(int id)
-        {
-            var existingBook = _books.Find(b => b.Id == id);
-
-            if (existingBook == null)
-            {
-                return NotFound();
-            }
-
-            _books.Remove(existingBook);
-
-            return Ok();
-        }
-
-        private int GenerateNewId()
-        {
-            return _books.Count + 1;
         }
     }
+    // PUT: api/Book/{id}
+    // BODY: Book (JSON)
+    [HttpPut("{id}")]
+    [ProducesResponseType(200, Type = typeof(Book))]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(404)]
+    public async Task<ActionResult<Book>> PutBook(int id, [FromBody] Book updatedBook)
+    {
+        // Vérifiez si le livre existe dans la base de données
+        Book existingBook = await _dbContext.Books.FindAsync(id);
+        if (existingBook == null)
+        {
+            return NotFound();
+        }
+
+        // Mettez à jour les propriétés du livre avec les nouvelles valeurs
+        // existingBook.Title = updatedBook.Title;
+        existingBook.Author = updatedBook.Author;
+
+        // Enregistrez les modifications dans la base de données
+        await _dbContext.SaveChangesAsync();
+
+        // Retournez une réponse OK avec le livre mis à jour
+        return Ok(existingBook);
+    }
+
 }

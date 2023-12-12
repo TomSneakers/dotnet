@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using BookStoreAPI.Entities;
+
 
 namespace BookStoreAPI;
 
@@ -12,6 +14,7 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
+        builder.Services.AddDbContext<ApplicationDbContext>();
 
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -26,7 +29,7 @@ public class Program
             app.UseSwagger();
             app.UseSwaggerUI();
         }
-        //test
+
         app.UseHttpsRedirection();
 
         app.UseAuthorization();
