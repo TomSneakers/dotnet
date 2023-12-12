@@ -26,7 +26,7 @@ public class Program
             app.UseSwagger();
             app.UseSwaggerUI();
         }
-
+        //test
         app.UseHttpsRedirection();
 
         app.UseAuthorization();
