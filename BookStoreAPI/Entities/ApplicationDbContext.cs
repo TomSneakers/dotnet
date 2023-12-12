@@ -1,6 +1,6 @@
-using System;
-using System.ComponentModel;
-using System.IO;
+// using System;
+// using System.ComponentModel;
+// using System.IO;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookStoreAPI.Entities;
@@ -20,7 +20,7 @@ public class ApplicationDbContext : DbContext
         var currentDir = Directory.GetCurrentDirectory();
 
         // combine le chemin du dossier courant avec le nom du fichier de la base de données
-        var dbPath = Path.Combine(currentDir, "Bookstore.db");
+        var dbPath = Path.Combine(currentDir, "bookstore.db");
         Console.WriteLine($"dbPath: {dbPath}");
         optionsBuilder.UseSqlite($"Filename={dbPath}");
 
