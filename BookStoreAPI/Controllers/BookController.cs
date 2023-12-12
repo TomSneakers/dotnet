@@ -1,6 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+
 using BookStoreAPI.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -30,16 +28,10 @@ public class BookController : ControllerBase
     // Ceci est une annotation, elle permet de définir des métadonnées sur une méthode
     // ActionResult designe le type de retour de la méthode de controller d'api
     [HttpGet]
-    public ActionResult<List<Book>> GetBooks()
+    public async Task<ActionResult<List<Book>>> GetBooks()
     {
-
-        var books = new List<Book>
-        {
-            new() { Id = 1, Title = "Le seigneur des anneaux", Author = "J.R.R Tolkien" }
-        };
-
+        var books = await _dbContext.Books.ToListAsync();
         return Ok(books);
-
     }
     // POST: api/Book
     // BODY: Book (JSON)
@@ -55,7 +47,7 @@ public class BookController : ControllerBase
         }
         // we check if the book already exists
         Book? addedBook = await _dbContext.Books.FirstOrDefaultAsync(b => b.Title == book.Title);
-        if (addedBook != null)
+        if (addedBook == null)
         {
             return BadRequest("Book already exists");
         }
@@ -104,5 +96,26 @@ public class BookController : ControllerBase
 
         // Retournez une réponse OK avec le livre mis à jour
         return Ok(existingBook);
+    }
+
+    // DELETE: api/Book/{id}
+    [HttpDelete("{id}")]
+    [ProducesResponseType(204)]
+    [ProducesResponseType(404)]
+    public async Task<ActionResult> DeleteBook(int id)
+    {
+        // Vérifiez si le livre existe dans la base de données
+        Book? existingBook = await _dbContext.Books.FindAsync(id);
+        if (existingBook == null)
+        {
+            return NotFound();
+        }
+
+        // Supprimez le livre de la base de données
+        _dbContext.Books.Remove(existingBook);
+        await _dbContext.SaveChangesAsync();
+
+        // Retournez une réponse OK avec le livre supprimé
+        return Ok();
     }
 }
