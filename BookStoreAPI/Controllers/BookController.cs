@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BookStoreAPI.Controllers
 {
     [ApiController]
-    [Route("api/books")]
+    [Route("api/[controller]")]
     public class BookController : ControllerBase
     {
         private readonly List<Book> _books;
@@ -18,37 +18,30 @@ namespace BookStoreAPI.Controllers
             };
         }
 
+
         // GET api/books
         [HttpGet]
-        [Route("api/books")]
+        // [Route("api/books")]
 
         public ActionResult<List<Book>> GetBooks()
         {
             return _books;
         }
 
-        // POST api/books
+
+        // POST Method
         [HttpPost]
-        [Route("api/books")]
-
-        public ActionResult<Book> CreateBook(Book book)
+        public IActionResult CreateBook(Book book)
         {
-            var newBook = new Book
-            {
-                Id = GenerateNewId(),
-                Title = book.Title,
-                Author = book.Author
-            };
+            // book.Id = GenerateNewId();
 
-            _books.Add(newBook);
+            // _books.Add(book);
 
-            return newBook;
+            return CreatedAtAction(nameof(GetBooks), new { id = book.Id });
         }
 
-        // PUT api/books/{id}
+        // PUT Method
         [HttpPut]
-        [Route("api/books")]
-
         public ActionResult<Book> UpdateBook(int id, Book book)
         {
             var existingBook = _books.Find(b => b.Id == id);
@@ -64,10 +57,8 @@ namespace BookStoreAPI.Controllers
             return existingBook;
         }
 
-        // DELETE api/books/{id}
+        // DELETE Method
         [HttpDelete]
-        [Route("api/books")]
-
         public ActionResult DeleteBook(int id)
         {
             var existingBook = _books.Find(b => b.Id == id);

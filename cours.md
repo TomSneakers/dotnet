@@ -86,3 +86,35 @@ Cepedant lorsque dans le fichier csproj la partie ` <ImplicitUsings>enable</Impl
 - expliquez comment fonctionne le nouveau point d'entrée d'API
 - Créez un second endpoint qui permet de creer un nouveau Livre
 - Créez un troisième endpoint qui permet de supprimer un livre
+
+## Sytaxe de base
+
+```
+[Rout("api/[controller]")]
+```
+## Qu'est ce que SQLite ? 
+
+SQLite est une bibliothèque écrite en langage C qui propose un moteur de base de données relationnelles accessible par le langage SQL. SQLite est le moteur de base de données le plus utilisé au monde. Il est intégré à de nombreux logiciels, dont les navigateurs web Mozilla Firefox et Google Chrome, les systèmes de gestion de contenu comme Drupal, Joomla, SPIP, Plone, Django ou encore WordPress, les lecteurs multimédia comme VLC, MPlayer, Amarok ou encore Kodi, les logiciels de messagerie comme Thunderbird, les logiciels de VoIP comme Skype, les logiciels de bureautique comme OpenOffice.org, LibreOffice, AbiWord, KOffice, etc.
+
+C'est une solution adapté aux applications embarquées, car elle ne nécessite pas de serveur de base de données. Elle est très légère et ne nécessite pas de configuration.
+
+
+## Comment installé SQLite ?
+
+Pour installer SQLite, il faut utiliser la commande suivante:
+
+```bash
+dotnet add package Microsoft.EntityFrameworkCore.Sqlite
+```
+## Comment savoir s'il est intallé SQLite ?
+
+Ouvrez le terminal et tapez la commande suivante:
+
+```bash
+sqlite3 -version
+```
+
+## Comment savoir s'il est installé dans son projet?
+
+Pour savoir si SQLite est installé, il faut regarder dans le fichier csproj si la dépendance est présente.
+

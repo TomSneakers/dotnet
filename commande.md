@@ -70,4 +70,18 @@ dotnet new list | grep <nom du template>
     dotnet new webapi -o <nom du projet>  // Sans controller
 
 dotnet new webapi --use-program-main --use-controllers -o <nom du projet> // Avec controller
+
+````
+
+
+## Commande pour installé Sqlite sur ton projet
+
+```bash
+dotnet add package Microsoft.EntityFrameworkCore.Sqlite
+````
+
+## Commande pour verifier si Sqlite est installé sur la machine
+
+```bash
+sqlite3 --version
 ```
