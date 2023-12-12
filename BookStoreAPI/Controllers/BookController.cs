@@ -4,15 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 
-namespace BookStoreAPI.Controllers; // BookStoreAPI est l'espace de nom racine de mon projet 
+namespace BookStoreAPI.Controllers;
 
 
-// this designe la classe dans laquelle on se trouve
-
-
-// Ceci est une annotation, elle permet de définir des métadonnées sur une classe
-// Dans ce contexte elle permet de définir que la classe BookController est un contrôleur d'API
-// On parle aussi de decorator / décorateur
 [ApiController]
 [Route("api/[controller]")]
 public class BookController : ControllerBase
@@ -25,16 +19,17 @@ public class BookController : ControllerBase
         _dbContext = dbContext;
     }
 
-    // Ceci est une annotation, elle permet de définir des métadonnées sur une méthode
-    // ActionResult designe le type de retour de la méthode de controller d'api
+
+    //Methode GET
     [HttpGet]
     public async Task<ActionResult<List<Book>>> GetBooks()
     {
         var books = await _dbContext.Books.ToListAsync();
         return Ok(books);
     }
-    // POST: api/Book
-    // BODY: Book (JSON)
+
+
+    //Methode Post
     [HttpPost]
     [ProducesResponseType(201, Type = typeof(Book))]
     [ProducesResponseType(400)]
@@ -64,8 +59,7 @@ public class BookController : ControllerBase
     }
 
 
-    // PUT: api/Book/{id}
-    // BODY: Book (JSON)
+    //Methode Put
     [HttpPut("{id}")]
     // [ProducesResponseType(200, Type = typeof(Book))]
     // [ProducesResponseType(400)]
@@ -98,7 +92,8 @@ public class BookController : ControllerBase
         return Ok(existingBook);
     }
 
-    // DELETE: api/Book/{id}
+
+    //Methode Delete
     [HttpDelete("{id}")]
     [ProducesResponseType(204)]
     [ProducesResponseType(404)]
