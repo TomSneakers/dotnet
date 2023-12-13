@@ -1,21 +1,19 @@
-
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using BookStoreAPI.Entities;
 using BookStoreAPI.Models;
-
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace BookStoreAPI.Entities;
 
-
 [ApiController]
 [Route("api/[controller]")]
-
 public class GenreController : Controller
 {
-
     private readonly ApplicationDbContext _dbContext;
     private readonly IMapper? _mapper;
 
@@ -26,86 +24,53 @@ public class GenreController : Controller
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<GenreDto>>> GetGenres()
+    public async Task<ActionResult<List<Genre>>> GetGenres()
     {
         var genres = await _dbContext.Genres.ToListAsync();
-        var genreDtos = _mapper?.Map<List<GenreDto>>(genres);
-        return Ok(genreDtos);
+        return Ok(genres);
     }
-
+    // GET: api/<GenreController>
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetGenre(int id)
+    public async Task<ActionResult<Genre>> GetGenreById(int id)
     {
-        GenreDto? genre = await _dbContext.Genres.FindAsync(id);
-
-        if (genre == null)
+        var genre = await _dbContext.Genres.FindAsync(id);
+        if (genre is null)
         {
             return NotFound();
         }
-
-        var genreDto = _mapper?.Map<GenreDto>(genre);
-        return Ok(genreDto);
+        return Ok(genre);
     }
-
+    //Post
     [HttpPost]
-    [ProducesResponseType(201, Type = typeof(GenreDto))]
-    [ProducesResponseType(400)]
-    public async Task<ActionResult<GenreDto>> PostGenre([FromBody] GenreDto genreDto)
+    public async Task<ActionResult<Genre>> CreateGenre(Genre genre)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-
-        var genre = _mapper?.Map<GenreDto>(genreDto);
-
-        if (genre != null)
-        {
-            await _dbContext.Genres.AddAsync(genre);
-            await _dbContext.SaveChangesAsync();
-        }
-
-        var createdGenreDto = _mapper?.Map<GenreDto>(genre);
-        return CreatedAtAction(nameof(GetGenre), new { id = createdGenreDto?.Id }, createdGenreDto);
-    }
-
-    [HttpPut("{id}")]
-    [ProducesResponseType(204)]
-    [ProducesResponseType(400)]
-    [ProducesResponseType(404)]
-    public async Task<IActionResult> PutGenre(int id, [FromBody] GenreDto updatedGenreDto)
-    {
-        GenreDto? existingGenre = await _dbContext.Genres.FindAsync(id);
-        if (existingGenre == null)
-        {
-            return NotFound();
-        }
-
-        if (_mapper != null)
-        {
-            _mapper.Map(updatedGenreDto, existingGenre);
-        }
-
+        await _dbContext.Genres.AddAsync(genre);
         await _dbContext.SaveChangesAsync();
-
+        return CreatedAtAction(nameof(GetGenreById), new { id = genre.Id }, genre);
+    }
+    //Put
+    [HttpPut("{id}")]
+    public async Task<ActionResult> UpdateGenre(int id, Genre genre)
+    {
+        if (id != genre.Id)
+        {
+            return BadRequest();
+        }
+        _dbContext.Entry(genre).State = EntityState.Modified;
+        await _dbContext.SaveChangesAsync();
         return NoContent();
     }
-
+    //Delete
     [HttpDelete("{id}")]
-    [ProducesResponseType(204)]
-    [ProducesResponseType(400)]
-    [ProducesResponseType(404)]
-    public async Task<IActionResult> DeleteGenre(int id)
+    public async Task<ActionResult> DeleteGenre(int id)
     {
-        GenreDto? existingGenre = await _dbContext.Genres.FindAsync(id);
-        if (existingGenre == null)
+        var genre = await _dbContext.Genres.FindAsync(id);
+        if (genre is null)
         {
             return NotFound();
         }
-
-        _dbContext.Genres.Remove(existingGenre);
+        _dbContext.Genres.Remove(genre);
         await _dbContext.SaveChangesAsync();
-
         return NoContent();
     }
 }

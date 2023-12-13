@@ -26,17 +26,23 @@ namespace BookStoreAPI.Entities
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<AuthorDto>>> GetAuthors()
+        public async Task<ActionResult<List<Author>>> GetAuthors()
         {
             var authors = await _dbContext.Authors.ToListAsync();
-            var authorDtos = _mapper?.Map<List<AuthorDto>>(authors); // Vérifier la nullité de _mapper
-            return Ok(authorDtos);
+            return Ok(authors);
         }
+
+
+        // Ceci est une annotation, elle permet de définir des métadonnées sur une méthode
+        // ActionResult designe le type de retour de la méthode de controller d'api
+
+
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAuthor(int id)
         {
-            AuthorDto? author = await _dbContext.Authors.FindAsync(id);
+            // Vérifiez si le livre existe dans la base de données
+            Author? author = await _dbContext.Authors.FindAsync(id);
 
             if (author == null)
             {
@@ -44,50 +50,43 @@ namespace BookStoreAPI.Entities
             }
 
             var authorDto = _mapper?.Map<AuthorDto>(author); // Vérifier la nullité de _mapper
+            if (authorDto == null)
+            {
+                return BadRequest();
+            }
+
             return Ok(authorDto);
         }
 
+        //Methode Post
         [HttpPost]
-        [ProducesResponseType(201, Type = typeof(AuthorDto))]
+        [ProducesResponseType(201, Type = typeof(Author))]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<AuthorDto>> PostAuthor([FromBody] AuthorDto authorDto)
+        public async Task<ActionResult<Author>> PostAuthor([FromBody] Author author)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var author = _mapper?.Map<AuthorDto>(authorDto); // Vérifier la nullité de _mapper
-            if (author == null)
-            {
-                return BadRequest();
-            }
-
             await _dbContext.Authors.AddAsync(author);
             await _dbContext.SaveChangesAsync();
 
-            var createdAuthorDto = _mapper?.Map<AuthorDto>(author); // Vérifier la nullité de _mapper
-            return CreatedAtAction(nameof(GetAuthor), new { id = createdAuthorDto?.Id }, createdAuthorDto);
+            return CreatedAtAction(nameof(GetAuthor), new { id = author.Id }, author);
         }
 
+        //Methode Put
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> PutAuthor(int id, [FromBody] AuthorDto authorDto)
+        public async Task<IActionResult> PutAuthor(int id, [FromBody] Author author)
         {
-            if (id != authorDto.Id)
+            if (id != author.Id)
             {
                 return BadRequest();
             }
 
-            var author = await _dbContext.Authors.FindAsync(id);
-            if (author == null)
-            {
-                return NotFound();
-            }
-
-            _mapper?.Map(authorDto, author); // Vérifier la nullité de _mapper
             _dbContext.Entry(author).State = EntityState.Modified;
 
             try
@@ -109,12 +108,15 @@ namespace BookStoreAPI.Entities
             return NoContent();
         }
 
+        //Methode Delete
         [HttpDelete("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> DeleteAuthor(int id)
+        public async
+
+        Task<IActionResult> DeleteAuthor(int id)
         {
-            var author = await _dbContext.Authors.FindAsync(id);
+            Author? author = await _dbContext.Authors.FindAsync(id);
             if (author == null)
             {
                 return NotFound();
