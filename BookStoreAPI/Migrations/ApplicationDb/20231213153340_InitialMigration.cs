@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace BookStoreAPI.Migrations
+namespace BookStoreAPI.Migrations.ApplicationDb
 {
     /// <inheritdoc />
     public partial class InitialMigration : Migration

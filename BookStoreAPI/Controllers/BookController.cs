@@ -7,6 +7,7 @@ using BookStoreAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 
 
 
@@ -39,8 +40,9 @@ public class BookController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetBook(int id)
     {
+
         // Vérifiez si le livre existe dans la base de données
-        Book? book = await _dbContext.Books.FindAsync(id);
+        Book? book = await _dbContext.Books.Include(a => a.Author).Include(a => a.Publisher).FirstOrDefaultAsync(b => b.Id == id);
 
         if (book == null)
         {
@@ -57,7 +59,8 @@ public class BookController : ControllerBase
     }
 
     //Methode Post
-    [Authorize]
+    //[Authorize]
+    //[AllowAnonymous] // permet de ne pas avoir besoin d'être authentifié pour accéder à la méthode
     [HttpPost]
     [ProducesResponseType(201, Type = typeof(Book))]
     [ProducesResponseType(400)]

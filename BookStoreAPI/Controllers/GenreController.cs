@@ -1,11 +1,7 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
-using BookStoreAPI.Entities;
-using BookStoreAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using BookStoreAPI.Models;
 
 
 namespace BookStoreAPI.Entities;
@@ -31,14 +27,23 @@ public class GenreController : Controller
     }
     // GET: api/<GenreController>
     [HttpGet("{id}")]
-    public async Task<ActionResult<Genre>> GetGenreById(int id)
+    public async Task<IActionResult> GetGenreById(int id)
     {
-        var genre = await _dbContext.Genres.FindAsync(id);
-        if (genre is null)
+        // Vérifiez si le genre existe dans la base de données
+        Genre? genre = await _dbContext.Genres.FindAsync(id);
+
+        if (genre == null)
         {
             return NotFound();
         }
-        return Ok(genre);
+
+        var genreDto = _mapper?.Map<GenreDto>(genre); // Vérifier la nullité de _mapper
+        if (genreDto == null)
+        {
+            return BadRequest();
+        }
+
+        return Ok(genreDto);
     }
     //Post
     [HttpPost]

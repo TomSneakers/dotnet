@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace BookStoreAPI.Migrations
+namespace BookStoreAPI.Migrations.ApplicationDb
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -101,7 +101,7 @@ namespace BookStoreAPI.Migrations
             modelBuilder.Entity("BookStoreAPI.Entities.Book", b =>
                 {
                     b.HasOne("BookStoreAPI.Entities.Author", "Author")
-                        .WithMany()
+                        .WithMany("Books")
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -123,6 +123,11 @@ namespace BookStoreAPI.Migrations
                     b.Navigation("Genre");
 
                     b.Navigation("Publisher");
+                });
+
+            modelBuilder.Entity("BookStoreAPI.Entities.Author", b =>
+                {
+                    b.Navigation("Books");
                 });
 #pragma warning restore 612, 618
         }

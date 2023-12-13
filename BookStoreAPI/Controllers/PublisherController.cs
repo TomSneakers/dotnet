@@ -1,7 +1,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using BookStoreAPI.Entities;
+using BookStoreAPI.Models;
 
 
 namespace BookStoreAPI.Entities;
@@ -27,14 +27,23 @@ public class PublisherController : Controller
     }
     // GET: api/<PublisherController>
     [HttpGet("{id}")]
-    public async Task<ActionResult<Publisher>> GetPublisherById(int id)
+    public async Task<IActionResult> GetPublisherById(int id)
     {
-        var publisher = await _dbContext.Publishers.FindAsync(id);
-        if (publisher is null)
+        // Vérifiez si le publisher existe dans la base de données
+        Publisher? publisher = await _dbContext.Publishers.FindAsync(id);
+
+        if (publisher == null)
         {
             return NotFound();
         }
-        return Ok(publisher);
+
+        var publisherDto = _mapper?.Map<PublisherDto>(publisher); // Vérifier la nullité de _mapper
+        if (publisherDto == null)
+        {
+            return BadRequest();
+        }
+
+        return Ok(publisherDto);
     }
     //Post
     [HttpPost]
