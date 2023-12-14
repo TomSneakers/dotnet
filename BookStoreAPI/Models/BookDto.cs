@@ -11,5 +11,6 @@ namespace BookStoreAPI.Models
         public AuthorForBookDTO? Author { get; set; } = default!;
 
         public PublisherDto? Publisher { get; set; } = default!;
+        public GenreDto? Genre { get; set; } = default!;
     }
 }

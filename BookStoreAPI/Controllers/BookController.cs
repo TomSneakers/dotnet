@@ -43,7 +43,7 @@ public class BookController : ControllerBase
 
         // Vérifiez si le livre existe dans la base de données
         // TODO:
-        Book? book = await _dbContext.Books.Include(a => a.Publisher).FirstOrDefaultAsync(b => b.Id == id);
+        Book? book = await _dbContext.Books.Include(a => a.Publisher).Include(a => a.Genre).FirstOrDefaultAsync(b => b.Id == id);
 
         if (book == null)
         {
