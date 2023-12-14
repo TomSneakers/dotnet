@@ -47,16 +47,16 @@ public class GenreController : Controller
     }
     //Post
     [HttpPost]
-    //[ProducesResponseType(201, Type = typeof(GenreCreateRequestDto))]
-    //[ProducesResponseType(400)]
-    public async Task<ActionResult<Genre>> PostGenre([FromBody] GenreCreateRequestDto GenreDto)
+    [ProducesResponseType(201, Type = typeof(GenreCreateRequestDto))]
+    [ProducesResponseType(400)]
+    public async Task<ActionResult<Genre>> PostGenre([FromBody] GenreCreateRequestDto genreCreateRequestDto)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
 
-        var genre = _mapper?.Map<Genre>(GenreDto); // Convert AuthorCreateRequestDto to Genre
+        var genre = _mapper?.Map<Genre>(genreCreateRequestDto); // Convert AuthorCreateRequestDto to Author
 
         if (genre == null)
         {
@@ -66,7 +66,7 @@ public class GenreController : Controller
         await _dbContext.Genres.AddAsync(genre);
         await _dbContext.SaveChangesAsync();
 
-        return CreatedAtAction(nameof(GenreDto), new { id = genre.Id }, genre);
+        return CreatedAtAction(nameof(PostGenre), new { id = genre.Id }, genreCreateRequestDto);
     }
 
     //Put
@@ -81,6 +81,7 @@ public class GenreController : Controller
         await _dbContext.SaveChangesAsync();
         return NoContent();
     }
+
     //Delete
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteGenre(int id)

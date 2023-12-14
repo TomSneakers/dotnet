@@ -10,7 +10,7 @@ namespace BookStoreAPI.Models
         [MaxLength(15)]
         public AuthorForBookDTO? Author { get; set; } = default!;
 
-        public PublisherDto? Publisher { get; set; } = default!;
-        public GenreDto? Genre { get; set; } = default!;
+        public PublisherForBookDTO? Publisher { get; set; } = default!;
+        public GenreForBookDTO? Genre { get; set; } = default!;
     }
 }
