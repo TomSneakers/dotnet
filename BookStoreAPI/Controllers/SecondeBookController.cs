@@ -1,11 +1,11 @@
-using System.Collections.Generic;
 using BookStoreAPI.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BookStoreAPI.Controllers; // BookStoreAPI est l'espace de nom racine de mon projet 
 
 [ApiController]
-
+[Authorize]
 public class SecondBookController : ControllerBase
 {
     //Methode GET

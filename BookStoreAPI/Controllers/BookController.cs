@@ -15,6 +15,7 @@ namespace BookStoreAPI.Controllers;
 
 
 [ApiController]
+[Authorize]
 [Route("api/[controller]")]
 public class BookController : ControllerBase
 {

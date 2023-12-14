@@ -7,11 +7,13 @@ using BookStoreAPI.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace BookStoreAPI.Entities
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
 
     public class AuthorController : Controller
