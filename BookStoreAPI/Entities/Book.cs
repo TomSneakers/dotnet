@@ -8,9 +8,13 @@ namespace BookStoreAPI.Entities
         // ceci est une property
         public int Id { get; set; }
         public required string Title { get; init; }
+        public Author? Author { get; set; }
         public int AuthorId { get; set; }
+
         public Publisher? Publisher { get; set; }
+        public int PublisherId { get; set; }
         public Genre? Genre { get; set; }
+        public int GenreId { get; set; }
         public string Abstract { get; set; } = string.Empty;
 
 

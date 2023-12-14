@@ -147,5 +147,43 @@ public class BookController : ControllerBase
         // Retournez une réponse OK avec le livre supprimé
         return Ok();
     }
+
+    //Methode Post Book qui utilise BookCreateRequestDto
+    [HttpPost("create")]
+    [ProducesResponseType(201, Type = typeof(BookCreateRequestDto))]
+    [ProducesResponseType(400)]
+    public async Task<ActionResult<Book>> PostBookWithDto([FromBody] BookCreateRequestDto bookDto)
+    {
+        // we check if the parameter is null
+        if (bookDto == null)
+        {
+            return BadRequest();
+        }
+        // we check if the book already exists
+        Book? addedBook = await _dbContext.Books.FirstOrDefaultAsync(b => b.Title == bookDto.Title);
+        if (addedBook != null)
+        {
+            return BadRequest("Book already exists");
+        }
+        else
+        {
+            // we add the book to the database
+            Book book = new Book
+            {
+                Title = bookDto.Title,
+                AuthorId = bookDto.AuthorId,
+                PublisherId = bookDto.PublisherId,
+                GenreId = bookDto.GenreId
+            };
+            await _dbContext.Books.AddAsync(book);
+            await _dbContext.SaveChangesAsync();
+
+            // we return the book
+            return Created("api/book", book);
+
+        }
+    }
+
+
 }
 

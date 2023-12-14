@@ -2,8 +2,10 @@ namespace BookStoreAPI.Models
 {
     public class BookCreateRequestDto
     {
-        public string Title { get; init; } = default!;
-        public string? Author { get; set; }
-        public string Abstract { get; set; } = string.Empty;
+        public string Title { get; init; } = string.Empty;
+        public int AuthorId { get; init; }
+        public int GenreId { get; init; }
+        public int PublisherId { get; init; }
+
     }
 }

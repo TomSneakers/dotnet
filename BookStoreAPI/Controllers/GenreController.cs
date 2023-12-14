@@ -2,7 +2,11 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BookStoreAPI.Models;
-
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
+using AutoMapper.QueryableExtensions;
+using BookStoreAPI.Entities;
 
 namespace BookStoreAPI.Entities;
 
@@ -27,23 +31,19 @@ public class GenreController : Controller
     }
     // GET: api/<GenreController>
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetGenreById(int id)
+    public async Task<ActionResult<GenreDto>> GetGenreById(int id)
     {
-        // Vérifiez si le genre existe dans la base de données
-        Genre? genre = await _dbContext.Genres.FindAsync(id);
+        var genre = await _dbContext.Genres
+            .Where(g => g.Id == id)
+            .ProjectTo<GenreDto>(_mapper?.ConfigurationProvider)
+            .FirstOrDefaultAsync();
 
         if (genre == null)
         {
             return NotFound();
         }
 
-        var genreDto = _mapper?.Map<GenreDto>(genre); // Vérifier la nullité de _mapper
-        if (genreDto == null)
-        {
-            return BadRequest();
-        }
-
-        return Ok(genreDto);
+        return Ok(genre);
     }
     //Post
     [HttpPost]

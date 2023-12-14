@@ -6,7 +6,7 @@ namespace BookStoreAPI.Models
         public string LastName { get; init; } = string.Empty;
 
         //public Book Books { get; set; } = default!;
-        public ICollection<Book> Books { get; set; } = new List<Book>();
+        public ICollection<BookForViewDto> Books { get; set; } = new List<BookForViewDto>();
 
 
     }

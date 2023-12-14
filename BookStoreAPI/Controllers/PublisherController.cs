@@ -30,7 +30,7 @@ public class PublisherController : Controller
     public async Task<IActionResult> GetPublisherById(int id)
     {
         // Vérifiez si le publisher existe dans la base de données
-        Publisher? publisher = await _dbContext.Publishers.FindAsync(id);
+        Publisher? publisher = await _dbContext.Publishers.Include(a => a.Books).FirstOrDefaultAsync(b => b.Id == id);
 
         if (publisher == null)
         {
