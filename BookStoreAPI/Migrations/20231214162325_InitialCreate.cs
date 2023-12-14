@@ -2,10 +2,10 @@
 
 #nullable disable
 
-namespace BookStoreAPI.Migrations.ApplicationDb
+namespace BookStoreAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -15,6 +15,8 @@ public class BookProfile : Profile
         CreateMap<Publisher, PublisherDto>();
         CreateMap<Genre, GenreDto>().ReverseMap();
         CreateMap<BookForViewDto, Book>().ReverseMap();
+        CreateMap<AuthorCreateRequestDto, Author>().ReverseMap();
+        CreateMap<GenreCreateRequestDto, Genre>().ReverseMap();
         CreateMap<BookCreateRequestDto, Book>();
     }
 

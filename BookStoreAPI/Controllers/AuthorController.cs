@@ -64,13 +64,20 @@ namespace BookStoreAPI.Entities
         [HttpPost]
         [ProducesResponseType(201, Type = typeof(Author))]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<Author>> PostAuthor([FromBody] Author author)
+        public async Task<ActionResult<Author>> PostAuthor([FromBody] AuthorCreateRequestDto authorDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
+            
+            var author = _mapper?.Map<Author>(authorDto); // Convert AuthorCreateRequestDto to Author
+            
+            if (author == null)
+            {
+                return BadRequest();
+            }
+            
             await _dbContext.Authors.AddAsync(author);
             await _dbContext.SaveChangesAsync();
 

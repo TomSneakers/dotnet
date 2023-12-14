@@ -46,13 +46,29 @@ public class GenreController : Controller
         return Ok(genre);
     }
     //Post
-    [HttpPost]
-    public async Task<ActionResult<Genre>> CreateGenre(Genre genre)
+    [HttpPost("CreateGenre")]
+    [ProducesResponseType(201, Type = typeof(GenreCreateRequestDto))]
+    [ProducesResponseType(400)]
+    public async Task<ActionResult<Genre>> PostGenre([FromBody] GenreCreateRequestDto GenreDto)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var genre = _mapper?.Map<Genre>(GenreDto); // Convert AuthorCreateRequestDto to Genre
+
+        if (genre == null)
+        {
+            return BadRequest();
+        }
+
         await _dbContext.Genres.AddAsync(genre);
         await _dbContext.SaveChangesAsync();
-        return CreatedAtAction(nameof(GetGenreById), new { id = genre.Id }, genre);
+
+        return CreatedAtAction(nameof(GenreDto), new { id = genre.Id }, genre);
     }
+
     //Put
     [HttpPut("{id}")]
     public async Task<ActionResult> UpdateGenre(int id, Genre genre)
