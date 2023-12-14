@@ -46,9 +46,9 @@ public class GenreController : Controller
         return Ok(genre);
     }
     //Post
-    [HttpPost("CreateGenre")]
-    [ProducesResponseType(201, Type = typeof(GenreCreateRequestDto))]
-    [ProducesResponseType(400)]
+    [HttpPost]
+    //[ProducesResponseType(201, Type = typeof(GenreCreateRequestDto))]
+    //[ProducesResponseType(400)]
     public async Task<ActionResult<Genre>> PostGenre([FromBody] GenreCreateRequestDto GenreDto)
     {
         if (!ModelState.IsValid)
