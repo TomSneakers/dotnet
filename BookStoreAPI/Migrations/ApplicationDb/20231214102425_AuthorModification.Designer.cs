@@ -3,6 +3,7 @@ using System;
 using BookStoreAPI.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookStoreAPI.Migrations.ApplicationDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231214102425_AuthorModification")]
+    partial class AuthorModification
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.0");
@@ -45,7 +48,7 @@ namespace BookStoreAPI.Migrations.ApplicationDb
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("AuthorId")
+                    b.Property<int?>("AuthorId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("GenreId")
@@ -101,11 +104,9 @@ namespace BookStoreAPI.Migrations.ApplicationDb
 
             modelBuilder.Entity("BookStoreAPI.Entities.Book", b =>
                 {
-                    b.HasOne("BookStoreAPI.Entities.Author", null)
+                    b.HasOne("BookStoreAPI.Entities.Author", "Author")
                         .WithMany("Books")
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AuthorId");
 
                     b.HasOne("BookStoreAPI.Entities.Genre", "Genre")
                         .WithMany()
@@ -116,6 +117,8 @@ namespace BookStoreAPI.Migrations.ApplicationDb
                     b.HasOne("BookStoreAPI.Entities.Publisher", "Publisher")
                         .WithMany()
                         .HasForeignKey("PublisherId");
+
+                    b.Navigation("Author");
 
                     b.Navigation("Genre");
 

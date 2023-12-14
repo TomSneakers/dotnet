@@ -42,7 +42,9 @@ namespace BookStoreAPI.Entities
         public async Task<IActionResult> GetAuthor(int id)
         {
             // Vérifiez si le livre existe dans la base de données
-            Author? author = await _dbContext.Authors.FindAsync(id);
+            var author = await _dbContext.Authors
+            .Include(a => a.Books)
+            .FirstOrDefaultAsync(a => a.Id == id);
 
             if (author == null)
             {

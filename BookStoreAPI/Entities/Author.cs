@@ -11,9 +11,9 @@ namespace BookStoreAPI.Entities
         public int Id { get; set; }
         public required string FirstName { get; init; }
         public string? LastName { get; set; }
-        //public ICollection<Book> Books { get; } = new List<Book>(); // Collection navigation containing dependents
 
 
+        public ICollection<Book> Books { get; set; } = new List<Book>();
 
 
     }

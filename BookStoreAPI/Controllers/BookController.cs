@@ -42,18 +42,20 @@ public class BookController : ControllerBase
     {
 
         // Vérifiez si le livre existe dans la base de données
-        Book? book = await _dbContext.Books.Include(a => a.Author).Include(a => a.Publisher).FirstOrDefaultAsync(b => b.Id == id);
+        // TODO:
+        Book? book = await _dbContext.Books.Include(a => a.Publisher).FirstOrDefaultAsync(b => b.Id == id);
 
         if (book == null)
         {
             return NotFound();
         }
-
+        Author? author = await _dbContext.Authors.FirstOrDefaultAsync(a => a.Id == book.AuthorId);
         var bookDto = _mapper?.Map<BookDto>(book); // Vérifier la nullité de _mapper
         if (bookDto == null)
         {
             return BadRequest();
         }
+        bookDto.Author = _mapper?.Map<AuthorForBookDTO>(author);
 
         return Ok(bookDto);
     }
@@ -108,7 +110,7 @@ public class BookController : ControllerBase
         {
             Id = existingBook.Id,
             Title = updatedBook.Title,
-            Author = updatedBook.Author,
+            //Author = updatedBook.Author,
             Abstract = updatedBook.Abstract,
             Publisher = existingBook.Publisher, // Add the Publisher property
             Genre = existingBook.Genre // Add the Genre property
