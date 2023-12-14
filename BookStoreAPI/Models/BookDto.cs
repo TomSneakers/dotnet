@@ -8,7 +8,7 @@ namespace BookStoreAPI.Models
         public string Title { get; init; } = default!;
 
         [MaxLength(15)]
-        public AuthorDto? Author { get; set; } = default!;
+        public AuthorForBookDTO? Author { get; set; } = default!;
 
         public PublisherDto? Publisher { get; set; } = default!;
     }

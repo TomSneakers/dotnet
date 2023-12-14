@@ -10,6 +10,7 @@ public class BookProfile : Profile
     {
         CreateMap<Book, BookDto>();
         CreateMap<Author, AuthorDto>();
+        CreateMap<Author, AuthorForBookDTO>();
         CreateMap<Genre, GenreDto>();
         CreateMap<Publisher, PublisherDto>();
         CreateMap<BookCreateRequestDto, Book>();
