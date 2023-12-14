@@ -47,12 +47,28 @@ public class PublisherController : Controller
     }
     //Post
     [HttpPost]
-    public async Task<ActionResult<Publisher>> CreatePublisher(Publisher publisher)
+    [ProducesResponseType(201, Type = typeof(PublisherCreateRequestDto))]
+    [ProducesResponseType(400)]
+    public async Task<ActionResult<Publisher>> PostPublisher([FromBody] PublisherCreateRequestDto publisherCreateRequestDto)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var publisher = _mapper?.Map<Publisher>(publisherCreateRequestDto); // Convert PublisherCreateRequestDto to Publisher
+
+        if (publisher == null)
+        {
+            return BadRequest();
+        }
+
         await _dbContext.Publishers.AddAsync(publisher);
         await _dbContext.SaveChangesAsync();
-        return CreatedAtAction(nameof(GetPublisherById), new { id = publisher.Id }, publisher);
+
+        return CreatedAtAction(nameof(PostPublisher), new { id = publisher.Id }, publisherCreateRequestDto);
     }
+
     //Put
     [HttpPut("{id}")]
     public async Task<ActionResult> UpdatePublisher(int id, Publisher publisher)
